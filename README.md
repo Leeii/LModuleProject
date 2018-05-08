@@ -25,6 +25,21 @@
 7. 在包名上新建`ui`包，用于页面代码
 8. 开始你的编码
 
+
+##### 结构
+
+- app
+    - src
+        - alone 单独作为一个应用调试运行的时候需要的文件，不会打入正式包中
+            - assets
+            - java
+            - modules
+            - res
+            - AndroidManifest.xml
+        - main 
+            - java
+            - res
+
 ##### 插件
 
 
