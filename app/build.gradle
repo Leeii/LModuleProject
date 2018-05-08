@@ -1,11 +1,14 @@
-def isModule = false
+def isModule = !false
 if (isModule) {
     apply plugin: 'com.android.library'
 } else {
     apply plugin: 'com.android.application'
 }
 
-def module_name = "template"
+apply plugin: 'io.objectbox'
+apply plugin: 'com.jakewharton.butterknife'
+
+def module_name = "task"
 
 
 android {

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.leeiidesu.lib.base.common.BaseActivity;
-import com.leeiidesu.module.template.R;
+import com.leeiidesu.module.task.R;
 
 import butterknife.BindView;
 import butterknife.OnClick;
