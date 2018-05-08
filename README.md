@@ -9,6 +9,10 @@
 [宿主部分>>>](https://github.com/Leeii/LComponentProject)
 
 
+##### 示例
+
+请切换至[Task分支](https://github.com/Leeii/LModuleProject/tree/task)
+
 ##### 准备工作
 1. Android Studio (以下简称AS)
 2. JAVA 8
