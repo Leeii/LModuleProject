@@ -1,0 +1,98 @@
+def isModule = false
+if (isModule) {
+    apply plugin: 'com.android.library'
+} else {
+    apply plugin: 'com.android.application'
+}
+
+def module_name = "template"
+
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        if (!isModule)
+            applicationId "com.leeiidesu.module.${module_name}"
+        minSdkVersion 21
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: module_name]
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "MODULE_NAME", "\"$module_name\""
+            buildConfigField "String", "MODULE_HOST", "\"http://192.168.254.29:5000\""
+            if (!isModule) {
+                manifestPlaceholders = [
+                        appname: "Module-$module_name"
+                ]
+            }
+        }
+
+
+        release {
+            buildConfigField "String", "MODULE_NAME", "\"$module_name\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main {
+            if (!isModule) {
+                java.srcDirs += 'src/alone/java'
+                res.srcDirs += 'src/alone/res'
+                manifest.srcFile 'src/alone/AndroidManifest.xml'
+                assets.srcDirs += 'src/alone/assets'
+            }
+        }
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    if (!isModule) {
+        repositories {
+            flatDir {
+                dirs 'alone/modules' //this way we can find the .aar file in libs folder
+            }
+        }
+    } else {
+        libraryVariants.all { variant ->
+            variant.outputs.all { ->
+                outputFileName = "module-${module_name}-${variant.buildType.name}.aar"
+            }
+        }
+    }
+
+}
+
+
+
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    annotationProcessor "com.google.dagger:dagger-compiler:2.12"
+    annotationProcessor "com.jakewharton:butterknife-compiler:8.8.1"
+    annotationProcessor "com.alibaba:arouter-compiler:1.1.4"
+
+    implementation group: "com.leeiidesu", name: "l-component", version: "dev-SNAPSHOT", changing: true
+
+}
